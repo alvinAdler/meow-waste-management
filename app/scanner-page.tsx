@@ -3,6 +3,15 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useRef, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
+import WastesCategories from "../utils/categories.json";
+
+const DEFAULT_RESULT_VALUE = {
+  name: "",
+  examples: [],
+  outcome: false,
+  binColor: "",
+  beforeDisposal: []
+}
 
 const ScannerPage = () => {
 
@@ -12,11 +21,13 @@ const ScannerPage = () => {
   const [isCameraReady, setIsCameraReady] = useState(false)
   const [isProcessingImage, setIsProcessingImage] = useState(false)
   const [hasBeenRequestedToBeProcessed, setHasBeenRequestedToBeProcessed] = useState(false)
-  const [result, setResult] = useState({
-    type: "",
-    recycleSuggestion: "",
-    outcome: false
-  })
+  const [result, setResult] = useState<{
+    name: string,
+    examples: string[],
+    outcome: boolean,
+    binColor: string,
+    beforeDisposal: string[]
+  }>(DEFAULT_RESULT_VALUE)
 
   const takePicture = async () => {
     if(cameraRef.current){
@@ -39,9 +50,10 @@ const ScannerPage = () => {
   const processImage = () => {
     setIsProcessingImage(true)
     setTimeout(() => {
+      const randomItemIndex = Math.floor(Math.random() * (Object.keys(WastesCategories).length) )
+      const randomKey = Object.keys(WastesCategories)[randomItemIndex]
       setResult({
-        type: "Organic",
-        recycleSuggestion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        ...WastesCategories[randomKey as keyof typeof WastesCategories],
         outcome: true
       })
       setIsProcessingImage(false)
@@ -59,9 +71,23 @@ const ScannerPage = () => {
           <ActivityIndicator size="large" color="#508D4E" />
         :
           result.outcome &&
-          <View style={{marginTop: 20}}>
-            <Text><Text style={{fontWeight: "bold"}}>Waste Type:</Text> {result.type}</Text>
-            <Text><Text style={{fontWeight: "bold"}}>Recycle suggestion:</Text> {result.recycleSuggestion}</Text>
+          <View style={{marginTop: 20, paddingInline: 25}}>
+            <Text><Text style={{fontWeight: "bold"}}>Waste Type:</Text> {result.name}</Text>
+            <Text><Text style={{fontWeight: "bold"}}>Bin Color:</Text> {result.binColor}</Text>
+            <Text><Text style={{fontWeight: "bold"}}>Examples: {result.examples.length > 0 ? result.examples.join(", ") : "-"}</Text></Text>
+            <Text><Text style={{fontWeight: "bold"}}>Before Disposal</Text></Text>
+            <View>
+              {result.beforeDisposal.length > 0 ?
+                result.beforeDisposal.map((item, index) => (
+                  <View key={index} style={{display: "flex", flexDirection: "row"}}>
+                    <Text>{index + 1}. </Text>
+                    <Text style={{textAlign: "justify"}}>{item}</Text>
+                  </View>
+                ))
+              :
+                <Text>-</Text>
+              }
+            </View>
           </View>
         }
         <View style={{display: "flex", marginTop: 20, flexDirection: "row", gap: 10}}>
@@ -71,11 +97,7 @@ const ScannerPage = () => {
             }
             setcurrentImageUri("")
             setHasBeenRequestedToBeProcessed(false)
-            setResult({
-              type: "",
-              recycleSuggestion: "",
-              outcome: false
-            })
+            setResult(DEFAULT_RESULT_VALUE)
           }} text='Retake'/>
           {!hasBeenRequestedToBeProcessed &&
             <CustomButton onPress={async () => {
@@ -94,24 +116,24 @@ const ScannerPage = () => {
         <Text style={{fontWeight: "bold", fontSize: 20}}>Scanner</Text>
         <Text style={{}}>Scan the item using the camera below</Text>
       </View>
-      <View style={{width: "100%", height: 300, display: "flex", justifyContent: "center"}}>
-        {permission &&
-          <>
-            <CameraView style={styles.camera} facing={"back"} ref={cameraRef} onCameraReady={() => setIsCameraReady(true)}>
-            </CameraView>
-            <CustomButton extraStyle={{ width: "100%", marginTop: 10 }} text='Capture' onPress={() => {
-              if(!isCameraReady){
-                return;
-              }
-              takePicture()
-            }}/>
-          </>
-        }
-      </View>
+      {permission && permission?.granted &&
+        <View style={{width: "100%", height: 300, display: "flex", justifyContent: "center"}}>
+            <>
+              <CameraView style={styles.camera} facing={"back"} ref={cameraRef} onCameraReady={() => setIsCameraReady(true)}>
+              </CameraView>
+              <CustomButton extraStyle={{ width: "100%", marginTop: 10 }} text='Capture' onPress={() => {
+                if(!isCameraReady){
+                  return;
+                }
+                takePicture()
+              }}/>
+            </>
+        </View>
+      }
       {!permission?.granted &&
         <View style={{display: "flex", flexDirection: "column", gap: 4, alignItems: "center"}}>
           <Text style={styles.message}>We need your permission to show the camera</Text>
-          <CustomButton text='Grant Permission' onPress={() => requestPermission()}/>
+          <CustomButton extraStyle={{justifyContent: "center", alignItems: "center"}} text='Grant Permission' onPress={() => requestPermission()}/>
         </View>
       }
       <View style={{marginTop: 50, display: "flex", alignItems: "center", flexDirection: "row", gap: 5}}>

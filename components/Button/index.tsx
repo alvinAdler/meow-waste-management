@@ -25,7 +25,7 @@ const CustomButton: React.FC<ButtonProps> = ({ children, onPress, extraStyle, te
           ...extraStyle
         }}
       >
-        {text ? <Text style={{ color: "#46460c", fontWeight: "bold" }}>{text}</Text> : <>{children}</>}
+        {text ? <Text style={{ color: "#46460c", fontWeight: "bold", textAlign: "center" }}>{text}</Text> : <>{children}</>}
       </View>
     </Pressable>
   )

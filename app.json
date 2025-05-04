@@ -16,7 +16,12 @@
         "foregroundImage": "./assets/images/new-splash-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.vielwastesortingapp.vielwastesortingapp"
     },
     "web": {
       "bundler": "metro",
@@ -52,6 +57,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8a3a9d46-d0b8-485c-a409-23edea8c217f"
+      }
     }
   }
 }

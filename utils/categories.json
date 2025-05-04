@@ -1,0 +1,71 @@
+{
+  "paper": {
+    "name": "Paper",
+    "examples": [],
+    "binColor": "Blue (Recyclables)",
+    "beforeDisposal": [
+      "Clean paper can be directly recycled",
+      "Oily or heavily soiled paper should go into Other Waste (Gray bin)"
+    ]
+  },
+  "aluminiumCans": {
+    "name": "Aluminium Cans",
+    "examples": ["Beverage Cans"],
+    "binColor": "Blue (Recyclables)",
+    "beforeDisposal": [
+      "Empty the contents",
+      "Rinse if possible",
+      "Lightly crush to save space"
+    ]
+  },
+  "clothing": {
+    "name": "Clothing",
+    "examples": [],
+    "binColor": "Blue (Recyclables)",
+    "beforeDisposal": [
+      "Clean and wearable clothes can be recycled",
+      "Heavily damaged or soiled clothes should go into Other Waste",
+      "If available, use special clothing donation or recycling bins"
+    ]
+  },
+  "glass": {
+    "name": "Glass",
+    "examples": ["Bottles", "Broken Glass"],
+    "binColor": "Blue (Recyclables)",
+    "beforeDisposal": [
+      "Clean intact glass items before recycling",
+      "Broken glass should be securely wrapped to prevent injury",
+      "Depending on local rules, it may be classified as Other Waste or Recyclables"
+    ]
+  },
+  "electronics": {
+    "name": "Electronics",
+    "examples": ["Phones", "Chargers", "Batteries"],
+    "binColor": "Red (Hazardous Waste) or Designated E-waste collection point",
+    "beforeDisposal": [
+      "Do not throw in regular bins",
+      "Batteries (especially button or lithium batteries) are hazardous",
+      "Use official recycling programs via community, NGOs, or e-commerce platforms"
+    ]
+  },
+  "plasticWastes": {
+    "name": "Plastic Wastes",
+    "examples": ["Plastic Bottles", "Food Containers (clean)", "Shampoo Bottles", "Milk Packets", "Biscuit Wrappers", "Plastic Bags (if recyclable)"],
+    "binColor": "Blue",
+    "beforeDisposal": [
+      "Rinse plastic items to remove food or liquid residues.",
+      "Dry them to avoid contamination.",
+      "Remove caps or labels if specified by local recycling rules."
+    ]
+  },
+  "organicWastes": {
+    "name": "Organic Wastes",
+    "examples": ["Vegetable and Fruit Peels", "Leftover Food", "Tea Bags and Coffee Grounds", "Eggshells", "Garden Waste (e.g. Leaves, Flowers)"],
+    "binColor": "Green",
+    "beforeDisposal": [
+      "Remove plastic packaging from food.",
+      "Drain excess liquid to reduce mess and smell.",
+      "Avoid mixing with non-biodegradable items."
+    ]
+  }
+}
